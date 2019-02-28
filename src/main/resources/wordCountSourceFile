@@ -1,0 +1,27 @@
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+18/06/29 11:52:34 INFO SparkContext: Running Spark version 2.1.0
+18/06/29 11:52:35 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/06/29 11:52:35 INFO SecurityManager: Changing view acls to:
+18/06/29 11:52:35 INFO SecurityManager: Changing modify acls to:
+18/06/29 11:52:35 INFO SecurityManager: Changing view acls groups to:
+18/06/29 11:52:35 INFO SecurityManager: Changing modify acls groups to:
+18/06/29 11:52:35 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(); groups with view permissions: Set(); users  with modify permissions: Set(); groups with modify permissions: Set()
+18/06/29 11:52:36 INFO Utils: Successfully started service 'sparkDriver' on port 63767.
+18/06/29 11:52:36 INFO SparkEnv: Registering MapOutputTracker
+18/06/29 11:52:36 INFO SparkEnv: Registering BlockManagerMaster
+18/06/29 11:52:36 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/06/29 11:52:36 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/06/29 11:52:36 INFO DiskBlockManager: Created local directory at /private/var/folders/f2/vgd8kzqn1zd288hfb8wc43hnrbdxn2/T/blockmgr-55ac8c7c--4c5d-aaae-
+18/06/29 11:52:36 INFO MemoryStore: MemoryStore started with capacity 2004.6 MB
+18/06/29 11:52:36 INFO SparkEnv: Registering OutputCommitCoordinator
+18/06/29 11:52:36 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+18/06/29 11:52:36 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://10.0.22.28:4040
+18/06/29 11:52:37 INFO Executor: Starting executor ID driver on host localhost
+18/06/29 11:52:37 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 63771.
+18/06/29 11:52:37 INFO NettyBlockTransferService: Server created on 10.0.22.28:63771
+18/06/29 11:52:37 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/06/29 11:52:37 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver
+18/06/29 11:52:37 INFO BlockManagerMasterEndpoint: Registering block manager 10.0..: with 2004.6 MB RAM, BlockManagerId(
+18/06/29 11:52:37 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 10.0.22.28, 63771, None)
+18/06/29 11:52:37 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 10.0.22.28, 63771, None)
+18/06/29 11:52:37 INFO SharedState: Warehouse path is 'file:/Users/guanwanglei/IdeaProjects/sparkDemo/spark-warehouse/'.
