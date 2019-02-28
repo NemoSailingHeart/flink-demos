@@ -1,7 +1,7 @@
 package com.demos.wordcount;
 
 /**
- * @author guanwanglei
+ * @author guan
  * @since 2019/2/28
  */
 /*

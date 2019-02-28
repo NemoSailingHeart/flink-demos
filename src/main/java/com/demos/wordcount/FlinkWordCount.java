@@ -5,12 +5,17 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.util.Collector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  * @author guan
  * @since 2019/2/28
  */
 public class FlinkWordCount {
+	private static Logger logger = LoggerFactory.getLogger(FlinkWordCount.class);
 	public static void main(String[] args) {
 
 		// set up the execution environment
@@ -24,6 +29,11 @@ public class FlinkWordCount {
 				"Or to take arms against a sea of troubles,"
 		);
 
+		// get input data from file
+		String path = Objects.requireNonNull(FlinkWordCount.class.getClassLoader().getResource("wordCountSourceFile")).getPath();
+		DataSet<String> textFileSource = env.readTextFile(path);
+		DataSet<Tuple2<String, Integer>> sum = textFileSource.flatMap(new LineSplitter()).groupBy(0).sum(1);
+
 		DataSet<Tuple2<String, Integer>> counts =
 				// split up the lines in pairs (2-tuples) containing: (word,1)
 				text.flatMap(new LineSplitter())
@@ -33,9 +43,12 @@ public class FlinkWordCount {
 
 		// execute and print result
 		try {
+			logger.info("================textFileSource word:===============");
+			sum.print();
+			logger.info("================fromElementsSource word:===============");
 			counts.print();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("错误", e);
 		}
 
 	}

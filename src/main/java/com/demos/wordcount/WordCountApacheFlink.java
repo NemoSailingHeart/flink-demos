@@ -16,36 +16,36 @@ package com.demos.wordcount;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * Implements the "WordCount" program that computes a simple word occurrence histogram
- * over text files.
- *
- * <p>The input is a plain text file with lines separated by newline characters.
- *
- * <p>Usage: <code>WordCount --input &lt;path&gt; --output &lt;path&gt;</code><br>
- * If no parameters are provided, the program is run with default data from {@link WordCountData}.
- *
- * <p>This example shows how to:
- * <ul>
- * <li>write a simple Flink program.
- * <li>use Tuple data types.
- * <li>write and use user-defined functions.
- * </ul>
- *
- */
-
-/**
- * @author guanwanglei
- * @since 2019/2/28
- */
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.util.Collector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+  * Implements the "WordCount" program that computes a simple word occurrence histogram
+  * over text files.
+  *
+  * <p>The input is a plain text file with lines separated by newline characters.
+  *
+  * <p>Usage: <code>WordCount --input &lt;path&gt; --output &lt;path&gt;</code><br>
+  * If no parameters are provided, the program is run with default data from {@link WordCountData}.
+  *
+  * <p>This example shows how to:
+  * <ul>
+  * <li>write a simple Flink program.
+  * <li>use Tuple data types.
+  * <li>write and use user-defined functions.
+  * </ul>
+  *
+  * @author guan
+  * @since 2019/2/28
+  */
 public class WordCountApacheFlink {
+	private static Logger logger = LoggerFactory.getLogger(WordCountApacheFlink.class);
 	// *************************************************************************
 	//     PROGRAM
 	// *************************************************************************
@@ -59,7 +59,7 @@ public class WordCountApacheFlink {
 
 		// make parameters available in the web interface
 		env.getConfig().setGlobalJobParameters(params);
-
+		env.getConfig().disableSysoutLogging();
 		// get input data
 		DataSet<String> text;
 		if (params.has("input")) {
@@ -67,8 +67,8 @@ public class WordCountApacheFlink {
 			text = env.readTextFile(params.get("input"));
 		} else {
 			// get default test text data
-			System.out.println("Executing WordCount example with default input data set.");
-			System.out.println("Use --input to specify file input.");
+			logger.info("Executing WordCount example with default input data set.");
+			logger.info("Use --input to specify file input.");
 			text = WordCountData.getDefaultTextLineDataSet(env);
 		}
 
@@ -85,7 +85,7 @@ public class WordCountApacheFlink {
 			// execute program
 			env.execute("WordCount Example");
 		} else {
-			System.out.println("Printing result to stdout. Use --output to specify output path.");
+			logger.info("Printing result to stdout. Use --output to specify output path.");
 			counts.print();
 		}
 
