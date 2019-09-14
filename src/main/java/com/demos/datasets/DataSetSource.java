@@ -14,6 +14,7 @@ import org.apache.hadoop.io.IntWritable;
 import javax.xml.soap.Text;
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class DataSetSource {
     public static void main(String[] args) throws IOException {
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
@@ -44,15 +45,12 @@ public class DataSetSource {
         DataSet<Long> numbers = env.generateSequence(1, 10000000);
 
         // 从关系型数据库读取
-        DataSet<Row> dbData =
-                env.createInput(JDBCInputFormat.buildJDBCInputFormat()
-                        .setDrivername("org.apache.derby.jdbc.EmbeddedDriver")
-                        .setDBUrl("jdbc:derby:memory:persons")
-                        .setQuery("select name, age from persons")
-                        .setRowTypeInfo(new RowTypeInfo(BasicTypeInfo.STRING_TYPE_INFO, BasicTypeInfo.INT_TYPE_INFO))
-                        .finish()
-                );
-
-
+        DataSet<Row> dbData = env.createInput(JDBCInputFormat.buildJDBCInputFormat()
+                .setDrivername("org.apache.derby.jdbc.EmbeddedDriver")
+                .setDBUrl("jdbc:derby:memory:persons")
+                .setQuery("select name, age from persons")
+                .setRowTypeInfo(new RowTypeInfo(BasicTypeInfo.STRING_TYPE_INFO, BasicTypeInfo.INT_TYPE_INFO))
+                .finish()
+        );
     }
 }
