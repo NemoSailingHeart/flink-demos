@@ -47,8 +47,30 @@ public class DataSetTransformation {
         // join
         joinMethod(data);
 
-        //
+        // outer join
+        outerJoinMethod(data);
 
+    }
+
+    private static void outerJoinMethod(DataSet<String> data) throws Exception {
+        MapOperator<String, String> map = data.map(new MapFunction<String, String>() {
+            @Override
+            public String map(String s) {
+                return s.split(",")[2];
+            }
+        });
+        JoinOperator<String, String, String> with = data.leftOuterJoin(map) // rightOuterJoin or fullOuterJoin for right or full outer joins
+                .where(0)              // key of the first input (tuple field 0)
+                .equalTo(1)            // key of the second input (tuple field 1)
+                .with(new JoinFunction<String, String, String>() {
+                    public String join(String v1, String v2) {
+                        // NOTE:
+                        // - v2 might be null for leftOuterJoin
+                        // - v1 might be null for rightOuterJoin
+                        return v1;
+                    }
+                });
+        with.print();
     }
 
     private static void joinMethod(DataSet<String> data) throws Exception {
