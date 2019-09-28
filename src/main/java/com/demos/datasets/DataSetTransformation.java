@@ -4,6 +4,7 @@ import org.apache.flink.api.common.functions.*;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.*;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.util.Collector;
 import java.util.Arrays;
@@ -50,7 +51,52 @@ public class DataSetTransformation {
         // outer join
         outerJoinMethod(data);
 
+        // coGroup
+        coGroupMethod(data);
+
+        // cross join
+        crossJoinMethod(data);
+
+        // Union
+        // Rebalance
     }
+
+    private static void crossJoinMethod(DataSet<String> data) throws Exception {
+        DataSet<Integer> data1 = data.map(new MapFunction<String, Integer>() {
+            @Override
+            public Integer map(String s) throws Exception {
+                return Integer.valueOf(s.split(",")[0]);
+            }
+        });
+        DataSet<String> data2 = data;
+        DataSet<Tuple2<Integer, String>> result = data1.cross(data2);
+        result.print();
+    }
+
+    /**
+     * reduce 算子操作的二维变体。将一个或多个字段上的每个输入分组，然后关联组。
+     * 每对组调用转换函数。
+     */
+    private static void coGroupMethod(DataSet<String> data) throws Exception {
+        MapOperator<String, String> map = data.map(new MapFunction<String, String>() {
+            @Override
+            public String map(String s) throws Exception {
+                return s;
+            }
+        });
+
+        CoGroupOperator<String, String, String> coGroup = data.coGroup(map)
+                .where(0)
+                .equalTo(1)
+                .with(new CoGroupFunction<String, String, String>() {
+                    public void coGroup(Iterable<String> in1, Iterable<String> in2, Collector<String> out) {
+                        out.collect(in1.iterator().next());
+                    }
+                });
+
+        coGroup.print();
+    }
+
 
     private static void outerJoinMethod(DataSet<String> data) throws Exception {
         MapOperator<String, String> map = data.map(new MapFunction<String, String>() {
